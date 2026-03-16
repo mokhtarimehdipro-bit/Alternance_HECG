@@ -1,68 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>Espace HECG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace HECG - Suivi Alternance</title>
     <style>
-      body { font-family: Arial, sans-serif; margin: 20px; color: white; background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://drive.google.com/uc?export=view&id=1RX3AKj1_9gH54Z3SfYRV7z-BUY78uM4T') no-repeat center center fixed; background-size: cover; }
+      body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: white; background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://drive.google.com/uc?export=view&id=1RX3AKj1_9gH54Z3SfYRV7z-BUY78uM4T') no-repeat center center fixed; background-size: cover; }
       .entete-page { text-align: center; margin-bottom: 30px; }
       .entete-page img { max-height: 90px; background-color: rgba(255,255,255,0.8); padding: 10px; border-radius: 8px; }
-      .boite-blanche { background-color: rgba(255, 255, 255, 0.95); color: #333; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+      .boite-blanche { background-color: rgba(255, 255, 255, 0.95); color: #333; padding: 20px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
       #ecran-accueil { max-width: 400px; margin: 50px auto; text-align: center; }
-      .form-group { margin-bottom: 10px; }
-      label { display: inline-block; width: 150px; font-weight: bold; }
-      input, select, textarea { width: 300px; padding: 5px; box-sizing: border-box; }
-      table { border-collapse: collapse; width: 100%; font-size: 13px; background-color: rgba(255, 255, 255, 0.95); color: #333; }
-      th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-      th { background-color: #e9ecef; }
-      button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
+      .form-group { margin-bottom: 12px; }
+      label { display: block; font-weight: bold; margin-bottom: 5px; }
+      input, select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+      textarea { height: 80px; }
+      table { border-collapse: collapse; width: 100%; font-size: 13px; background-color: white; color: #333; }
+      th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+      th { background-color: #f2f2f2; }
+      button { padding: 12px 20px; background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
+      button:hover { background: #0056b3; }
       .btn-modifier { background: #ffc107; color: black; padding: 5px 10px; }
-      .btn-annuler { background: #dc3545; display: none; margin-left: 10px; }
-      .erreur { color: red; }
+      .btn-annuler { background: #dc3545; display: none; margin-top: 10px; }
+      .erreur { color: #d9534f; font-weight: bold; padding: 10px; background: #f9d6d5; border-radius: 4px; }
+      #conteneur-tableau { overflow-x: auto; margin-top: 20px; border-radius: 8px; }
     </style>
   </head>
   <body>
-    <div class="entete-page"><img src="https://hecg.fr/wp-content/uploads/2025/03/LOGO-FORMAT-PNG-1-1.png" alt="Logo"></div>
+    <div class="entete-page">
+      <img src="https://hecg.fr/wp-content/uploads/2025/03/LOGO-FORMAT-PNG-1-1.png" alt="Logo HECG">
+    </div>
 
     <div id="ecran-accueil" class="boite-blanche">
-      <h2>Accès Espace Emploi</h2>
-      <p>Saisissez votre référence (5 caractères) :</p>
-      <input type="text" id="refSaisie" maxlength="5" style="width: 50%; margin-bottom: 15px; text-align: center; text-transform: uppercase;">
-      <br><button onclick="acceder()">Valider</button>
+      <h2>Espace Candidature</h2>
+      <p>Saisissez votre référence de suivi (5 caractères) pour accéder à votre espace :</p>
+      <input type="text" id="refSaisie" maxlength="5" placeholder="Ex: AB123" style="text-align: center; text-transform: uppercase; font-size: 18px; margin-bottom: 20px;">
+      <br>
+      <button onclick="acceder()">Accéder à mon espace</button>
     </div>
 
     <div id="ecran-principal" style="display: none;">
-      <h2 id="titre-form">Saisir une candidature</h2>
+      <h2 id="titre-form">Saisir une nouvelle candidature</h2>
       <div id="formulaire" class="boite-blanche">
         <div class="form-group"><label>Entreprise :</label><input type="text" id="entreprise"></div>
         <div class="form-group"><label>Nom du poste :</label><input type="text" id="poste"></div>
         <div class="form-group"><label>Statut :</label><select id="statut"><option>Je vais postuler</option><option>J'ai postulé</option><option>J'ai relancé</option><option>J'ai un entretien</option><option>J'ai reçu une réponse négative</option><option>Je n'ai pas reçu de réponse</option></select></div>
         <div class="form-group"><label>Nature :</label><select id="nature"><option>Candidature Physique</option><option>Bouche à oreille</option><option>Réseaux Sociaux</option><option>Applications</option></select></div>
-        <div class="form-group"><label>Intérêt :</label><select id="interet"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+        <div class="form-group"><label>Intérêt (1 à 5) :</label><select id="interet"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
         <div class="form-group"><label>Lien de l'offre :</label><input type="text" id="lien"></div>
         <div class="form-group"><label>Date candidature :</label><input type="date" id="dateCandidature"></div>
         <div class="form-group"><label>Date relance :</label><input type="date" id="dateRelance"></div>
-        <div class="form-group"><label>Nom recruteur :</label><input type="text" id="recruteur"></div>
-        <div class="form-group"><label>Contact du recruteur :</label><input type="text" id="contact"></div>
+        <div class="form-group"><label>Nom du recruteur :</label><input type="text" id="recruteur"></div>
+        <div class="form-group"><label>Contact du recruteur (Mail/Tel) :</label><input type="text" id="contact"></div>
         <div class="form-group"><label>Lieu :</label><input type="text" id="lieu"></div>
         <div class="form-group"><label>Commentaires :</label><textarea id="commentaires"></textarea></div>
-        <button onclick="envoyerDonnee('ajouter')" id="btn-ajout">Ajouter</button>
-        <button onclick="annulerEdition()" id="btn-annuler" class="btn-annuler">Annuler</button>
+        
+        <button onclick="envoyerDonnee()" id="btn-ajout">Ajouter la candidature</button>
+        <button onclick="annulerEdition()" id="btn-annuler" class="btn-annuler">Annuler la modification</button>
       </div>
       
-      <h2>Mes Candidatures</h2>
-      <div style="overflow-x: auto;"><div id="affichage"></div></div>
-      <div style="text-align: center; margin-top: 20px;"><button onclick="quitter()" style="background:#6c757d;">Quitter l'espace</button></div>
+      <h2>Historique de mes candidatures</h2>
+      <div id="conteneur-tableau">
+        <div id="affichage"></div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 40px;">
+        <button onclick="quitter()" style="background:#6c757d;">Déconnexion / Changer de code</button>
+      </div>
     </div>
 
     <script>
-      // ▼▼▼ INSÉREZ ICI LE LIEN FOURNI PAR APPS SCRIPT ▼▼▼
+      // ▼▼▼ REMPLACEZ CETTE URL PAR VOTRE LIEN GOOGLE SCRIPT ▼▼▼
       const URL_API = "https://script.google.com/macros/s/AKfycbwhw_mN0boTToBbWOu6aOXrt-sV7VuyABa3TTEwxhPVN4aVMbkSWfShwccR0O_aqsCJcg/exec";
       
       let mesDonnees = [], ligneEdition = null, refActive = "";
 
       async function appelAPI(action, extraParams = {}) {
-        document.getElementById('affichage').innerHTML = "<em>Chargement...</em>";
+        const affichage = document.getElementById('affichage');
+        affichage.innerHTML = "<em>Chargement des données...</em>";
         document.getElementById('btn-ajout').disabled = true;
         
         const payload = { action: action, ref: refActive, ...extraParams };
@@ -78,7 +92,7 @@
           afficherTableau(data);
           annulerEdition();
         } catch (e) {
-          document.getElementById('affichage').innerHTML = "<p class='erreur'>Erreur : " + e.message + "</p>";
+          affichage.innerHTML = "<p class='erreur'>Erreur de communication : " + e.message + "</p>";
         } finally {
           document.getElementById('btn-ajout').disabled = false;
         }
@@ -86,49 +100,101 @@
 
       function acceder() {
         refActive = document.getElementById('refSaisie').value.trim().toUpperCase();
-        if(refActive.length !== 5) return alert("La référence doit contenir exactement 5 caractères.");
+        if(refActive.length !== 5) return alert("Veuillez saisir une référence à 5 caractères.");
+        
+        // Affichage immédiat de l'interface
         document.getElementById('ecran-accueil').style.display = 'none';
         document.getElementById('ecran-principal').style.display = 'block';
+        
+        // Chargement des données existantes (si elles existent)
         appelAPI('lire');
       }
 
       function quitter() {
-        refActive = ""; document.getElementById('ecran-principal').style.display = 'none';
-        document.getElementById('ecran-accueil').style.display = 'block'; document.getElementById('refSaisie').value = "";
+        refActive = "";
+        document.getElementById('ecran-principal').style.display = 'none';
+        document.getElementById('ecran-accueil').style.display = 'block';
+        document.getElementById('refSaisie').value = "";
+        document.getElementById('affichage').innerHTML = "";
       }
 
       function getForm() {
-        return { entreprise: document.getElementById('entreprise').value, poste: document.getElementById('poste').value, statut: document.getElementById('statut').value, nature: document.getElementById('nature').value, interet: document.getElementById('interet').value, lien: document.getElementById('lien').value, dateCandidature: document.getElementById('dateCandidature').value, dateRelance: document.getElementById('dateRelance').value, recruteur: document.getElementById('recruteur').value, contact: document.getElementById('contact').value, lieu: document.getElementById('lieu').value, commentaires: document.getElementById('commentaires').value };
+        return {
+          entreprise: document.getElementById('entreprise').value,
+          poste: document.getElementById('poste').value,
+          statut: document.getElementById('statut').value,
+          nature: document.getElementById('nature').value,
+          interet: document.getElementById('interet').value,
+          lien: document.getElementById('lien').value,
+          dateCandidature: document.getElementById('dateCandidature').value,
+          dateRelance: document.getElementById('dateRelance').value,
+          recruteur: document.getElementById('recruteur').value,
+          contact: document.getElementById('contact').value,
+          lieu: document.getElementById('lieu').value,
+          commentaires: document.getElementById('commentaires').value
+        };
       }
 
       function envoyerDonnee() {
-        if(ligneEdition) appelAPI('modifier', { ligne: ligneEdition, form: getForm() });
-        else appelAPI('ajouter', { form: getForm() });
+        if(ligneEdition) {
+          appelAPI('modifier', { ligne: ligneEdition, form: getForm() });
+        } else {
+          appelAPI('ajouter', { form: getForm() });
+        }
       }
 
       function preparerEdition(index) {
-        var l = mesDonnees[index]; ligneEdition = l[13];
-        document.getElementById('entreprise').value = l[0]; document.getElementById('poste').value = l[1]; document.getElementById('statut').value = l[2]; document.getElementById('nature').value = l[3]; document.getElementById('interet').value = l[4]; document.getElementById('lien').value = l[5];
-        var dc = l[6].split('/'); document.getElementById('dateCandidature').value = dc.length===3 ? dc[2]+'-'+dc[1]+'-'+dc[0] : l[6];
-        var dr = l[7].split('/'); document.getElementById('dateRelance').value = dr.length===3 ? dr[2]+'-'+dr[1]+'-'+dr[0] : l[7];
-        document.getElementById('recruteur').value = l[8]; document.getElementById('contact').value = l[9]; document.getElementById('lieu').value = l[10]; document.getElementById('commentaires').value = l[11];
-        document.getElementById('btn-ajout').innerText = "Mettre à jour"; document.getElementById('btn-annuler').style.display = "inline-block";
+        const l = mesDonnees[index];
+        ligneEdition = l[13]; // Le numéro de ligne stocké en dernier
+        
+        document.getElementById('entreprise').value = l[0];
+        document.getElementById('poste').value = l[1];
+        document.getElementById('statut').value = l[2];
+        document.getElementById('nature').value = l[3];
+        document.getElementById('interet').value = l[4];
+        document.getElementById('lien').value = l[5];
+        
+        // Formattage date pour l'input HTML (YYYY-MM-DD)
+        const dc = l[6].split('/');
+        if(dc.length === 3) document.getElementById('dateCandidature').value = `${dc[2]}-${dc[1]}-${dc[0]}`;
+        else document.getElementById('dateCandidature').value = l[6];
+
+        const dr = l[7].split('/');
+        if(dr.length === 3) document.getElementById('dateRelance').value = `${dr[2]}-${dr[1]}-${dr[0]}`;
+        else document.getElementById('dateRelance').value = l[7];
+
+        document.getElementById('recruteur').value = l[8];
+        document.getElementById('contact').value = l[9];
+        document.getElementById('lieu').value = l[10];
+        document.getElementById('commentaires').value = l[11];
+        
+        document.getElementById('titre-form').innerText = "Modifier ma candidature";
+        document.getElementById('btn-ajout').innerText = "Mettre à jour la ligne";
+        document.getElementById('btn-annuler').style.display = "inline-block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       function annulerEdition() {
         ligneEdition = null;
-        document.querySelectorAll('input[type="text"]:not(#refSaisie), input[type="date"], textarea').forEach(e => e.value = '');
-        document.getElementById('btn-ajout').innerText = "Ajouter"; document.getElementById('btn-annuler').style.display = "none";
+        document.querySelectorAll('input:not(#refSaisie), select:not(#statut):not(#nature):not(#interet), textarea').forEach(e => e.value = '');
+        document.getElementById('titre-form').innerText = "Saisir une nouvelle candidature";
+        document.getElementById('btn-ajout').innerText = "Ajouter la candidature";
+        document.getElementById('btn-annuler').style.display = "none";
       }
 
       function afficherTableau(d) {
         mesDonnees = d;
-        var h = '<table><thead><tr><th>Entreprise</th><th>Poste</th><th>Statut</th><th>Nature</th><th>Intérêt</th><th>Lien</th><th>Date cand.</th><th>Date rel.</th><th>Recruteur</th><th>Contact</th><th>Lieu</th><th>Commentaires</th><th>Actions</th></tr></thead><tbody>';
-        if (!d || d.length === 0) { document.getElementById('affichage').innerHTML = h + "<tr><td colspan='13'>Aucune donnée.</td></tr></tbody></table>"; return; }
+        let h = '<table><thead><tr><th>Entreprise</th><th>Poste</th><th>Statut</th><th>Nature</th><th>Intérêt</th><th>Lien</th><th>Date cand.</th><th>Date rel.</th><th>Recruteur</th><th>Contact</th><th>Lieu</th><th>Commentaires</th><th>Actions</th></tr></thead><tbody>';
+        
+        if (!d || d.length === 0) {
+          document.getElementById('affichage').innerHTML = h + "<tr><td colspan='13' style='text-align:center;'>Aucune candidature trouvée pour ce code.</td></tr></tbody></table>";
+          return;
+        }
+        
         d.forEach((l, i) => {
-          h += '<tr>'; for(var j=0; j<12; j++) h += '<td>' + (l[j] || '') + '</td>';
-          h += '<td><button class="btn-modifier" onclick="preparerEdition(' + i + ')">Modifier</button></td></tr>';
+          h += '<tr>';
+          for(let j=0; j<12; j++) h += `<td>${l[j] || ''}</td>`;
+          h += `<td><button class="btn-modifier" onclick="preparerEdition(${i})">Modifier</button></td></tr>`;
         });
         document.getElementById('affichage').innerHTML = h + '</tbody></table>';
       }
